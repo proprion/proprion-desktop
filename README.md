@@ -134,7 +134,8 @@ Proprion Apps (Exoscale IAM roles):
 
 # Delete an app (use the Role ID from list-apps)
 $ proprion delete-app --provider my-cloud --app-id 1ed07899-80f8-4106-8415-c1bd3aaa57b0
-Deleting role '1ed07899-80f8-4106-8415-c1bd3aaa57b0'...
+Deleting IAM role 1ed07899-80f8-4106-8415-c1bd3aaa57b0...
+  Deleting API key EXO61b352c720c8fd7ef733088b...
 Role and associated API keys deleted successfully.
 
 # Show config file location
