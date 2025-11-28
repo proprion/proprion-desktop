@@ -52,18 +52,29 @@ $ proprion create-app \
 
 Creating app 'fitness-app' on Exoscale...
   [1/3] Checking/creating bucket 'my-apps-data'...
+        Bucket ready
   [2/3] Creating IAM role with scoped policy...
+        Role ID: 1ed07899-80f8-4106-8415-c1bd3aaa57b0
+        Waiting for role to propagate...
   [3/3] Creating API key...
+        Access Key: EXO61b352c720c8fd7ef733088b
 
 === App Created Successfully ===
+
+S3 Credentials for 'fitness-app':
 
 {
   "access_key": "EXO61b352c720c8fd7ef733088b",
   "secret_key": "IYLUhy359KRwZShS-7ghTgH0pEgv...",
   "endpoint": "https://sos-de-fra-1.exo.io",
+  "zone": "de-fra-1",
   "bucket": "my-apps-data",
   "prefix": "apps/fitness-app/"
 }
+
+IMPORTANT: Save the secret_key now - it cannot be retrieved later!
+
+Role ID: 1ed07899-80f8-4106-8415-c1bd3aaa57b0 (save this to delete the app later)
 
 This app can ONLY access: s3://my-apps-data/apps/fitness-app/
 ```
@@ -80,10 +91,13 @@ $ proprion create-app \
     --name photo-sync \
     --description "Photo backup"
 
+# ... (same progress output) ...
+
 {
   "access_key": "EXO2833e3866ea041e07b2c705b",
   "secret_key": "Du40m05-T1znVl8A2fs9wZRi...",
   "endpoint": "https://sos-de-fra-1.exo.io",
+  "zone": "de-fra-1",
   "bucket": "my-apps-data",
   "prefix": "apps/photo-sync/"
 }
@@ -105,20 +119,27 @@ This is enforced by cloud provider IAM, not by trusting the apps.
 ```bash
 # List configured providers
 $ proprion list-providers
+Configured providers:
   - my-cloud [exoscale (de-fra-1)]
 
-# List apps
+# List apps for a provider
 $ proprion list-apps --provider my-cloud
-  - fitness-app (Role ID: 1ed07899-80f8-4106-8415-c1bd3aaa57b0)
-  - photo-sync (Role ID: 9dbb944b-3b44-44ca-bd1e-137d28f39fca)
+Fetching IAM roles...
 
-# Delete an app
-$ proprion delete-app --provider my-cloud --app-id 1ed07899...
-  Role and associated API keys deleted successfully.
+Proprion Apps (Exoscale IAM roles):
+  - fitness-app (Role ID: 1ed07899-80f8-4106-8415-c1bd3aaa57b0)
+    Fitness tracker data
+  - photo-sync (Role ID: 9dbb944b-3b44-44ca-bd1e-137d28f39fca)
+    Photo backup
+
+# Delete an app (use the Role ID from list-apps)
+$ proprion delete-app --provider my-cloud --app-id 1ed07899-80f8-4106-8415-c1bd3aaa57b0
+Deleting role '1ed07899-80f8-4106-8415-c1bd3aaa57b0'...
+Role and associated API keys deleted successfully.
 
 # Show config file location
 $ proprion config-path
-  ~/Library/Application Support/org.proprion.proprion/config.toml
+/Users/you/Library/Application Support/org.proprion.proprion/config.toml
 ```
 
 ### Supported Providers
